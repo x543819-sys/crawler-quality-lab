@@ -20,11 +20,12 @@ def digest(value):
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
-def parse_books(document, page_url):
+def parse_books(document, page_url, *, card_class="product_pod"):
     tree = html.fromstring(document)
-    cards = tree.xpath('//article[contains(concat(" ",normalize-space(@class)," ")," product_pod ")]')
+    cards = tree.xpath('//article[contains(concat(" ",normalize-space(@class)," "), $token)]',
+                       token=f" {card_class} ")
     if not cards:
-        raise ParseError("book_selector_empty: 页面中没有商品卡片，不能当作成功采集0条")
+        raise ParseError("book_selector_empty: 当前选择器未找到商品卡片，不能当作成功采集0条")
     rows = []
     for card in cards:
         links = card.xpath('.//h3/a')

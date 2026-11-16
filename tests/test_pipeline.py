@@ -247,3 +247,32 @@ def test_zero_accepted_has_no_misleading_quality_rate(store, tmp_path):
     stats = export_report(store, "zero", tmp_path / "zero")
     assert stats["quality_acceptance_rate"] is None
     assert stats["status"] == "failed"
+
+
+def test_demo_selector_repair_only_fetches_failed_page(tmp_path, monkeypatch, store):
+    args = setup_project(tmp_path, monkeypatch)
+    args.fault = "selector"
+    failed = run_project.execute(args, store)
+    assert run_project.latest_selector_failure(store) == failed["run_id"]
+    args.resume = failed["run_id"]
+    args.repair_demo_layout = True
+    repaired = run_project.execute(args, store)
+    assert repaired["status"] == "complete"
+    assert repaired["completed_pages"] == 4 and repaired["accepted_rows"] == 6
+    assert repaired["page_fetch_attempt_events"] == failed["page_fetch_attempt_events"] + 1
+    assert repaired["quarantined_rows"] == 0
+    assert len(store.rows(db.records)) == 6
+    events = store.rows(db.events, db.events.c.run_id == failed["run_id"])
+    assert sum(e["kind"] == "demo_parser_repair" for e in events) == 1
+    with pytest.raises(run_project.DemoRepairError, match="没有待修复"):
+        run_project.latest_selector_failure(store)
+
+
+def test_demo_repair_cannot_override_live_parser(tmp_path, monkeypatch, store):
+    args = setup_project(tmp_path, monkeypatch)
+    run_id = "live_repair_must_refuse"
+    store.start(run_id, {"mode": "live", "fault": "none", "book_pages": 1, "quote_pages": 1}, [("books", 1)])
+    args.resume = run_id
+    args.repair_demo_layout = True
+    with pytest.raises(run_project.DemoRepairError, match="只接受"):
+        run_project.execute(args, store)

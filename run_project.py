@@ -13,10 +13,25 @@ from filelock import FileLock, Timeout
 
 from crawler_lab import storage as db
 from crawler_lab.fetchers import DemoFetcher, LiveFetcher
-from crawler_lab.parsers import PARSERS, validate
+from crawler_lab.parsers import PARSERS, parse_books, validate
 from crawler_lab.report import export_report
 
 ROOT = Path(__file__).resolve().parent
+
+
+class DemoRepairError(ValueError):
+    pass
+
+
+def latest_selector_failure(store):
+    for run in sorted(store.rows(db.runs), key=lambda r: (r["started_at"], r["id"]), reverse=True):
+        config = json.loads(run["config_json"])
+        if config.get("mode") != "demo" or config.get("fault") != "selector":
+            continue
+        pages = store.rows(db.tasks, db.tasks.c.run_id == run["id"])
+        if any(p["status"] == "failed" and p["source"] == "books" and p["page"] == 2 for p in pages):
+            return run["id"]
+    raise DemoRepairError("没有待修复的模拟改版批次；请先运行05_模拟页面改版.cmd。")
 
 
 def execute(args, store, fetcher_factory=None):
@@ -35,6 +50,9 @@ def execute(args, store, fetcher_factory=None):
         plan = [(source, p) for source, count in [("books", args.book_pages), ("quotes", args.quote_pages)] for p in range(1, count + 1)]
         store.start(run_id, config, plan)
         print("新批次：", run_id, flush=True)
+    repair = getattr(args, "repair_demo_layout", False)
+    if repair and (not args.resume or config.get("mode") != "demo" or config.get("fault") != "selector"):
+        raise DemoRepairError("修复入口只接受已有的模拟改版批次。")
     folder = ROOT / "runs" / run_id
     folder.mkdir(parents=True, exist_ok=True)
     (folder / "snapshots").mkdir(exist_ok=True)
@@ -57,7 +75,11 @@ def execute(args, store, fetcher_factory=None):
                 print(f"采集 {source} 第{page}页", flush=True)
                 document = fetcher.get(source, page, url)
                 snapshot.write_text(document, encoding="utf-8")
-                rows = PARSERS[source](document, url)
+                if repair and source == "books" and page == 2:
+                    log(source, page, "demo_parser_repair", "模拟卡片product_pod改为product_tile；仅修复本次失败页")
+                    rows = parse_books(document, url, card_class="product_tile")
+                else:
+                    rows = PARSERS[source](document, url)
                 counts = store.save_page(run_id, config["mode"], source, page, str(snapshot.relative_to(ROOT)),
                                          [(row, validate(source, row)) for row in rows])
                 log(source, page, "page_committed", json.dumps(counts))
@@ -105,9 +127,15 @@ def main():
     parser.add_argument("--quote-pages", type=int, default=2)
     parser.add_argument("--fault", choices=["none", "dirty", "selector", "timeout"], default="none")
     parser.add_argument("--resume", help="继续指定批次，跳过已完成页面")
+    parser.add_argument("--resume-last-selector", action="store_true", help="找到最近待修复的模拟改版批次")
+    parser.add_argument("--repair-demo-layout", action="store_true", help="只在模拟改版失败页使用新卡片选择器")
     parser.add_argument("--stop-after-pages", type=int, default=0, help="主动暂停，验证断点续采")
     parser.add_argument("--open-report", action="store_true")
     args = parser.parse_args()
+    if args.resume and args.resume_last_selector:
+        parser.error("resume和resume-last-selector只能选一个")
+    if args.repair_demo_layout and not (args.resume or args.resume_last_selector):
+        parser.error("修复演示必须指定已有批次，或使用resume-last-selector")
     if not 1 <= args.book_pages <= 50 or not 1 <= args.quote_pages <= 10:
         parser.error("图书页数须为1~50；语录页数须为1~10")
     if args.mode == "demo" and (args.book_pages > 2 or args.quote_pages > 2):
@@ -129,10 +157,15 @@ def main():
         with FileLock(str(ROOT / "data/worker.lock"), timeout=0):
             store = db.Store(url)
             try:
+                if args.resume_last_selector:
+                    args.resume = latest_selector_failure(store)
                 stats = execute(args, store)
             finally:
                 store.dispose()
         return 0 if stats["status"] == "complete" else (130 if stats["status"] == "interrupted" else 1)
+    except DemoRepairError as error:
+        print(str(error), file=sys.stderr)
+        return 2
     except Timeout:
         print("已有采集任务运行，请等待完成。", file=sys.stderr)
         return 2
