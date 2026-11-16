@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.pytest_cache/
+data/
+runs/
+local_config.json
+*.log
+!evidence/pytest.log
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+FILE_MANIFEST.json
