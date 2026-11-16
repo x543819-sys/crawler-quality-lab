@@ -1,0 +1,5 @@
+﻿run_id,source,page,status,snapshot,error,row_count
+r20261116T030010654002Z_b4b873,books,1,complete,runs\r20261116T030010654002Z_b4b873\snapshots\books_1.html,,20
+r20261116T030010654002Z_b4b873,books,2,complete,runs\r20261116T030010654002Z_b4b873\snapshots\books_2.html,,20
+r20261116T030010654002Z_b4b873,quotes,1,complete,runs\r20261116T030010654002Z_b4b873\snapshots\quotes_1.html,,10
+r20261116T030010654002Z_b4b873,quotes,2,complete,runs\r20261116T030010654002Z_b4b873\snapshots\quotes_2.html,,10
