@@ -1,5 +1,7 @@
 # 实测记录
 
+2026-11-17新增验收：42项自动化测试通过（24.49秒）；APScheduler实际完成两轮离线采集后自动停止；无头Edge验证看板，MySQL只读核对既有4页60条联网记录。调度新增验收没有重新进行联网定时采集，不将其声称为长期生产运行。详情见PRODUCT_GUIDE.md和evidence/product_verification.json。
+
 验证日期：2026-11-16。原始验收数据见 `evidence/verification.json`，离线测试日志见 `evidence/pytest.log`。
 
 ## 真实联网采集

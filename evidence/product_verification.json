@@ -1,0 +1,15 @@
+{
+  "ui_loaded": true,
+  "metrics_visible": true,
+  "screenshot": "evidence/dashboard_preview.png",
+  "mysql_latest": {
+    "run_id": "r20261116T063039060200Z_ecdbdb",
+    "accepted_rows": 60,
+    "completed_pages": 4,
+    "task_rows": 4
+  },
+  "scheduler": {
+    "status": "stopped",
+    "completed_attempts": 2
+  }
+}

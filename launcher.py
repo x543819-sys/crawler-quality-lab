@@ -13,4 +13,12 @@ if "mysql" in sys.argv[1:]:
         result = subprocess.run([sys.executable, str(bootstrap)])
         if result.returncode:
             sys.exit(result.returncode)
-sys.exit(subprocess.call([sys.executable, "-u", str(root / "run_project.py"), *sys.argv[1:]], cwd=root))
+if sys.argv[1:2] == ["dashboard"]:
+    command = [sys.executable, "-m", "streamlit", "run", str(root / "dashboard.py"),
+               "--server.address", "127.0.0.1", "--server.port", "8501",
+               "--browser.gatherUsageStats", "false"]
+elif sys.argv[1:2] == ["schedule"]:
+    command = [sys.executable, "-u", str(root / "schedule_crawler.py"), *sys.argv[2:]]
+else:
+    command = [sys.executable, "-u", str(root / "run_project.py"), *sys.argv[1:]]
+sys.exit(subprocess.call(command, cwd=root))
