@@ -37,6 +37,8 @@ def export_report(store, run_id, folder):
     stats = {
         "run_id": run_id, "mode": run["mode"], "fault": config.get("fault", "none"),
         "backend": store.backend, "status": run["status"],
+        "engine": config.get("engine", "original"),
+        "scrapy_scenario": config.get("scrapy_scenario", "none"),
         "started_at_utc": run["started_at"], "finished_at_utc": run["finished_at"],
         "page_limits": {"books": config["book_pages"], "quotes": config["quote_pages"]},
         "planned_pages": len(task_rows), "completed_pages": sum(r["status"] == "complete" for r in task_rows),

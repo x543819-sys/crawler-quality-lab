@@ -19,6 +19,8 @@ if sys.argv[1:2] == ["dashboard"]:
                "--browser.gatherUsageStats", "false"]
 elif sys.argv[1:2] == ["schedule"]:
     command = [sys.executable, "-u", str(root / "schedule_crawler.py"), *sys.argv[2:]]
+elif sys.argv[1:2] == ["scrapy"]:
+    command = [sys.executable, "-u", str(root / "run_scrapy.py"), *sys.argv[2:]]
 else:
     command = [sys.executable, "-u", str(root / "run_project.py"), *sys.argv[1:]]
 sys.exit(subprocess.call(command, cwd=root))

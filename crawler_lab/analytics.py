@@ -59,6 +59,7 @@ def history(engine, mode, limit=200):
         counts = {name: outcome_counts.get((run["id"], name), 0) for name in ("new", "updated", "unchanged")}
         accepted = sum(counts.values())
         result.append({"run_id": run["id"], "started_at": run["started_at"], "status": run["status"],
+            "engine": json.loads(run["config_json"]).get("engine", "original"),
             "planned_pages": len(tasks), "completed_pages": sum(t["status"] == "complete" for t in tasks),
             "failed_pages": sum(t["status"] == "failed" for t in tasks), "accepted_rows": accepted,
             "quarantined_rows": rejected.get(run["id"], 0),

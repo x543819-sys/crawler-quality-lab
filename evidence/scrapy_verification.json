@@ -1,0 +1,290 @@
+{
+  "offline": {
+    "summary": {
+      "run_id": "r20261118T152154965443Z_59f0fd",
+      "mode": "demo",
+      "fault": "none",
+      "backend": "sqlite",
+      "status": "complete",
+      "engine": "scrapy",
+      "scrapy_scenario": "none",
+      "started_at_utc": "2026-11-18T15:21:54+00:00",
+      "finished_at_utc": "2026-11-18T15:21:56+00:00",
+      "page_limits": {
+        "books": 2,
+        "quotes": 0
+      },
+      "planned_pages": 2,
+      "completed_pages": 2,
+      "failed_pages": 0,
+      "pending_pages": 0,
+      "parsed_rows": 3,
+      "accepted_rows": 3,
+      "quarantined_rows": 0,
+      "new_records": 0,
+      "updated_records": 0,
+      "unchanged_records": 3,
+      "retry_events": 0,
+      "page_fetch_attempt_events": 2,
+      "quality_acceptance_rate": 1.0,
+      "issues": {},
+      "scope_note": "只统计配置指定的前N页；图书价格与评分是练习站演示数据；页面失败不计作0条成功。"
+    },
+    "exit_code": 0,
+    "event_counts": {
+      "scrapy_started": 1,
+      "fetch_attempt": 2,
+      "fetch_completed": 2,
+      "page_committed": 2
+    },
+    "diagnostics": []
+  },
+  "proxy_failure": {
+    "summary": {
+      "run_id": "r20261118T152203261147Z_ed03c5",
+      "mode": "demo",
+      "fault": "none",
+      "backend": "sqlite",
+      "status": "complete",
+      "engine": "scrapy",
+      "scrapy_scenario": "proxy-failure",
+      "started_at_utc": "2026-11-18T15:22:03+00:00",
+      "finished_at_utc": "2026-11-18T15:22:05+00:00",
+      "page_limits": {
+        "books": 2,
+        "quotes": 0
+      },
+      "planned_pages": 2,
+      "completed_pages": 2,
+      "failed_pages": 0,
+      "pending_pages": 0,
+      "parsed_rows": 3,
+      "accepted_rows": 3,
+      "quarantined_rows": 0,
+      "new_records": 0,
+      "updated_records": 0,
+      "unchanged_records": 3,
+      "retry_events": 1,
+      "page_fetch_attempt_events": 3,
+      "quality_acceptance_rate": 1.0,
+      "issues": {},
+      "scope_note": "只统计配置指定的前N页；图书价格与评分是练习站演示数据；页面失败不计作0条成功。"
+    },
+    "exit_code": 0,
+    "event_counts": {
+      "scrapy_started": 1,
+      "fetch_attempt": 3,
+      "proxy_selected": 3,
+      "proxy_failure": 1,
+      "retry": 1,
+      "fetch_completed": 2,
+      "page_committed": 2
+    },
+    "diagnostics": [
+      {
+        "kind": "proxy_selected",
+        "page": 1,
+        "detail": "proxy_1"
+      },
+      {
+        "kind": "proxy_failure",
+        "page": 1,
+        "detail": "proxy_1:ConnectionRefusedError"
+      },
+      {
+        "kind": "proxy_selected",
+        "page": 2,
+        "detail": "proxy_2"
+      },
+      {
+        "kind": "proxy_selected",
+        "page": 1,
+        "detail": "proxy_2"
+      }
+    ]
+  },
+  "captcha": {
+    "summary": {
+      "run_id": "r20261118T152211987780Z_96fc23",
+      "mode": "demo",
+      "fault": "none",
+      "backend": "sqlite",
+      "status": "partial",
+      "engine": "scrapy",
+      "scrapy_scenario": "captcha",
+      "started_at_utc": "2026-11-18T15:22:11+00:00",
+      "finished_at_utc": "2026-11-18T15:22:13+00:00",
+      "page_limits": {
+        "books": 2,
+        "quotes": 0
+      },
+      "planned_pages": 2,
+      "completed_pages": 1,
+      "failed_pages": 1,
+      "pending_pages": 0,
+      "parsed_rows": 2,
+      "accepted_rows": 2,
+      "quarantined_rows": 0,
+      "new_records": 0,
+      "updated_records": 0,
+      "unchanged_records": 2,
+      "retry_events": 0,
+      "page_fetch_attempt_events": 2,
+      "quality_acceptance_rate": 1.0,
+      "issues": {},
+      "scope_note": "只统计配置指定的前N页；图书价格与评分是练习站演示数据；页面失败不计作0条成功。"
+    },
+    "exit_code": 1,
+    "event_counts": {
+      "scrapy_started": 1,
+      "fetch_attempt": 2,
+      "page_failed": 1,
+      "manual_review_required": 1,
+      "fetch_completed": 1,
+      "page_committed": 1
+    },
+    "diagnostics": [
+      {
+        "kind": "manual_review_required",
+        "page": 2,
+        "detail": "captcha_manual_review"
+      }
+    ]
+  },
+  "captcha_resume": {
+    "summary": {
+      "run_id": "r20261118T152211987780Z_96fc23",
+      "mode": "demo",
+      "fault": "none",
+      "backend": "sqlite",
+      "status": "complete",
+      "engine": "scrapy",
+      "scrapy_scenario": "captcha",
+      "started_at_utc": "2026-11-18T15:22:11+00:00",
+      "finished_at_utc": "2026-11-18T15:22:22+00:00",
+      "page_limits": {
+        "books": 2,
+        "quotes": 0
+      },
+      "planned_pages": 2,
+      "completed_pages": 2,
+      "failed_pages": 0,
+      "pending_pages": 0,
+      "parsed_rows": 3,
+      "accepted_rows": 3,
+      "quarantined_rows": 0,
+      "new_records": 0,
+      "updated_records": 0,
+      "unchanged_records": 3,
+      "retry_events": 0,
+      "page_fetch_attempt_events": 3,
+      "quality_acceptance_rate": 1.0,
+      "issues": {},
+      "scope_note": "只统计配置指定的前N页；图书价格与评分是练习站演示数据；页面失败不计作0条成功。"
+    },
+    "exit_code": 0,
+    "event_counts": {
+      "scrapy_started": 2,
+      "fetch_attempt": 3,
+      "page_failed": 1,
+      "manual_review_required": 1,
+      "fetch_completed": 2,
+      "page_committed": 2
+    },
+    "diagnostics": [
+      {
+        "kind": "manual_review_required",
+        "page": 2,
+        "detail": "captcha_manual_review"
+      }
+    ]
+  },
+  "retry_after": {
+    "summary": {
+      "run_id": "r20261118T152228616313Z_e16ab6",
+      "mode": "demo",
+      "fault": "none",
+      "backend": "sqlite",
+      "status": "partial",
+      "engine": "scrapy",
+      "scrapy_scenario": "rate-limit",
+      "started_at_utc": "2026-11-18T15:22:28+00:00",
+      "finished_at_utc": "2026-11-18T15:22:30+00:00",
+      "page_limits": {
+        "books": 2,
+        "quotes": 0
+      },
+      "planned_pages": 2,
+      "completed_pages": 1,
+      "failed_pages": 1,
+      "pending_pages": 0,
+      "parsed_rows": 2,
+      "accepted_rows": 2,
+      "quarantined_rows": 0,
+      "new_records": 0,
+      "updated_records": 0,
+      "unchanged_records": 2,
+      "retry_events": 0,
+      "page_fetch_attempt_events": 2,
+      "quality_acceptance_rate": 1.0,
+      "issues": {},
+      "scope_note": "只统计配置指定的前N页；图书价格与评分是练习站演示数据；页面失败不计作0条成功。"
+    },
+    "exit_code": 1,
+    "event_counts": {
+      "scrapy_started": 1,
+      "fetch_attempt": 2,
+      "page_failed": 1,
+      "manual_review_required": 1,
+      "fetch_completed": 1,
+      "page_committed": 1
+    },
+    "diagnostics": [
+      {
+        "kind": "manual_review_required",
+        "page": 2,
+        "detail": "retry_after_exceeds_budget"
+      }
+    ]
+  },
+  "live_books": {
+    "summary": {
+      "run_id": "r20261118T152236631049Z_6191c5",
+      "mode": "live",
+      "fault": "none",
+      "backend": "sqlite",
+      "status": "complete",
+      "engine": "scrapy",
+      "scrapy_scenario": "none",
+      "started_at_utc": "2026-11-18T15:22:36+00:00",
+      "finished_at_utc": "2026-11-18T15:22:40+00:00",
+      "page_limits": {
+        "books": 1,
+        "quotes": 0
+      },
+      "planned_pages": 1,
+      "completed_pages": 1,
+      "failed_pages": 0,
+      "pending_pages": 0,
+      "parsed_rows": 20,
+      "accepted_rows": 20,
+      "quarantined_rows": 0,
+      "new_records": 0,
+      "updated_records": 0,
+      "unchanged_records": 20,
+      "retry_events": 0,
+      "page_fetch_attempt_events": 1,
+      "quality_acceptance_rate": 1.0,
+      "issues": {},
+      "scope_note": "只统计配置指定的前N页；图书价格与评分是练习站演示数据；页面失败不计作0条成功。"
+    },
+    "exit_code": 0,
+    "event_counts": {
+      "scrapy_started": 1,
+      "fetch_attempt": 1,
+      "fetch_completed": 1,
+      "page_committed": 1
+    },
+    "diagnostics": []
+  }
+}

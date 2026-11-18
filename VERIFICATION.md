@@ -1,5 +1,9 @@
 # 实测记录
 
+当前完整回归：53项测试通过（19.74秒），见evidence/pytest.log。
+
+2026-11-18：新增Scrapy框架入口，实际验证离线3条、代理故障1次重试恢复、验证码暂停/失败页续采、Retry-After超过预算停止；公开练习站图书1页20条联网成功。详情见SCRAPY_GUIDE.md及evidence/scrapy_verification.json。真实外部代理和真实验证码解决流程未验证。
+
 2026-11-17新增验收：42项自动化测试通过（24.49秒）；APScheduler实际完成两轮离线采集后自动停止；无头Edge验证看板，MySQL只读核对既有4页60条联网记录。调度新增验收没有重新进行联网定时采集，不将其声称为长期生产运行。详情见PRODUCT_GUIDE.md和evidence/product_verification.json。
 
 验证日期：2026-11-16。原始验收数据见 `evidence/verification.json`，离线测试日志见 `evidence/pytest.log`。

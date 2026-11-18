@@ -12,3 +12,4 @@ local_config.json
 *.sqlite
 *.sqlite3
 FILE_MANIFEST.json
+proxy_config.json
